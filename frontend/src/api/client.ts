@@ -3,7 +3,10 @@
  * Connects strictly to actual FastAPI backend endpoints without any mock or hardcoded data.
  */
 
-const API_BASE = '/api/v1';
+const RAW_BASE = import.meta.env.VITE_API_BASE_URL?.trim();
+const API_BASE = RAW_BASE
+  ? `${RAW_BASE.replace(/\/+$/, '')}/api/v1`
+  : '/api/v1';
 
 async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
   const resp = await fetch(`${API_BASE}${url}`, options);
